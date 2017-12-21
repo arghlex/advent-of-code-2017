@@ -1,3 +1,11 @@
+/**************************************************************************
+ *                                                                        *
+ *                         Advent of Code: Day 2                          *
+ *                                                                        *
+ * ************************************************************************/
+
+
+
 var spreadsheet = [
     [3751, 3769, 2769, 2039, 2794, 240, 3579, 1228, 4291, 220, 324, 3960, 211, 1346, 237, 1586],
     [550, 589, 538, 110, 167, 567, 99, 203, 524, 288, 500, 111, 118, 185, 505, 74],
@@ -18,17 +26,22 @@ var spreadsheet = [
 ];
 
 
-var getMinMaxDiff = function (array) {
+//
+//      Part 1
+//
 
-    var reduce;
+var getMinMaxDiff = function (arr) {
 
-    array.sort(function (a, b) {
+    var reduce,
+        tmpArr = arr.slice(0);
+
+    tmpArr.sort(function (a, b) {
 
         return a - b;
 
-    }).splice(1, array.length - 2);
+    }).splice(1, tmpArr.length - 2);
 
-    reduce = array.reduce(function (a, b) {
+    reduce = tmpArr.reduce(function (a, b) {
 
         return b - a;
 
@@ -37,7 +50,6 @@ var getMinMaxDiff = function (array) {
     return reduce;
 
 };
-
 
 var checksum = spreadsheet.map(function (arr) {
 
@@ -49,4 +61,41 @@ var checksum = spreadsheet.map(function (arr) {
 
 });
 
-console.log(checksum);
+console.log('Part 1', checksum);
+
+
+//
+//      Part 2
+//
+
+var getRowSum = function (arr) {
+
+    var dividend, divisor;
+
+    for (var i = 0; i < arr.length; i++) {
+        for (var j = 0; j < arr.length; j++) {
+            if (j !== i) {
+                if (arr[i] % arr[j] === 0) {
+                    dividend = arr[i];
+                    divisor = arr[j];
+                    break;
+                }
+            }
+        }
+    }
+
+    return dividend / divisor;
+
+};
+
+var totalRowsSum = spreadsheet.map(function (arr) {
+
+    return getRowSum(arr);
+
+}).reduce(function (a, b) {
+
+    return a + b;
+
+});
+
+console.log('Part 2', totalRowsSum);
